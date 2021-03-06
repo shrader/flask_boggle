@@ -34,8 +34,38 @@ class BoggleAppTestCase(TestCase):
 
         with self.client as client:
             response = client.get('/api/new-game')
-            data = response.json
-            self.assertTrue(type(data), str)
-            print(type(data))
+            json = response.json
+            
+            # test for valid keys
+            self.assertTrue(type(json['board']), list)
+            self.assertTrue(type(json['gameId']), str)
+
+            # test for games dictionary keys
+            self.assertIn(json['gameId'], games)
             
             # write a test for this route
+    
+    def test_api_score_word(self):
+        """Test scoring words"""
+
+        with self.client as client:
+            game_id = client.get("/api/new-game").get_json()['gameId']
+        
+            game = games[game_id]
+
+            game.board = [["B", "C", "T", "E", "E"], 
+                            ["A", "R", "S", "D", "Y"],
+                            ["E", "Y", "O", "P", "M"],
+                            ["J", "E", "I", "A", "T"],
+                            ["F", "U", "I", "E", "L"]]
+                
+            json = client.post("/api/score-word",
+                               json={"word": "CARTS", "gameId": game_id)
+           
+            # check if words are in library
+            self.assertTrue(is_word_in_word_list("CARTS"))
+            self.assertFalse(is_word_in_word_list("TSDYM"))
+
+            #check if words are in board
+            self.assertTrue(check_word_on_board("CARTS"))
+            self.assertFalse(check_word_on_board("APPLES"))

@@ -1,1 +1,5 @@
 venv
+__pycache__/app.cpython-39.pyc
+__pycache__/boggle.cpython-39.pyc
+__pycache__/test_app.cpython-39.pyc
+__pycache__/wordlist.cpython-39.pyc

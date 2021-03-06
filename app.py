@@ -8,6 +8,7 @@ app.config["SECRET_KEY"] = "this-is-secret"
 
 # The boggle games created, keyed by game id
 games = {}
+game_info = ""
 
 
 @app.route("/")
@@ -26,6 +27,25 @@ def new_game():
     game = BoggleGame()
     games[game_id] = game
 
+    global game_info
+    game_info = jsonify({"gameId": game_id, "board": game.board})
+
     print({"gameId": game_id, "board": game.board})
 
     return jsonify({"gameId": game_id, "board": game.board})
+
+@app.route("/api/score-word", methods=["POST"])
+def score_words():
+
+    curr_game = games[].board
+    curr_word = request.json["word"].upper()
+
+    if curr_game.is_word_in_word_list(curr_word) and curr_game.check_word_on_board(curr_word):
+            return jsonify(result="ok")
+
+    if not curr_game.is_word_in_word_list(curr_word):
+        return jsonify(result="not-word")
+
+    if not curr_game.check_word_on_board(curr_word):
+        return jsonify(result="not-on-board")
+ 
