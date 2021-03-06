@@ -60,12 +60,12 @@ class BoggleAppTestCase(TestCase):
                             ["F", "U", "I", "E", "L"]]
                 
             json = client.post("/api/score-word",
-                               json={"word": "CARTS", "gameId": game_id)
+                               json={"word": "CARTS", "gameId": game_id})
            
             # check if words are in library
-            self.assertTrue(is_word_in_word_list("CARTS"))
-            self.assertFalse(is_word_in_word_list("TSDYM"))
+            self.assertTrue(game.is_word_in_word_list("CARTS"))
+            self.assertFalse(game.is_word_in_word_list("TSDYM"))
 
             #check if words are in board
-            self.assertTrue(check_word_on_board("CARTS"))
-            self.assertFalse(check_word_on_board("APPLES"))
+            self.assertTrue(game.check_word_on_board("CARTS"))
+            self.assertFalse(game.check_word_on_board("APPLES"))
